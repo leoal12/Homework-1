@@ -7,7 +7,7 @@
 dados_originais <- read.csv("HW1_bike_sharing.csv")
 
 # 2. Definir as matrículas do grupo e calcular M e r
-matriculas <- c(580988, 580201, 592280) # Leonardo, Gabriel e Noah
+matriculas <- c(580988, 580201, 592280, 582416) # Leonardo, Gabriel, Noah e João Pedro
 M <- max(matriculas)                    # Encontra a maior matrícula
 r <- 1 + (M %% 100)                     # Operador %% calcula o módulo
 
@@ -22,7 +22,8 @@ ultima_data <- data_group$dteday[nrow(data_group)]
 cat("1. Matrículas da Equipe:\n")
 cat("   Leonardo Alves Moreira: 580988\n")
 cat("   Gabriel Sampaio: 580201\n")
-cat("   Noah Martins: 592280\n\n")
+cat("   Noah Martins: 592280\n")
+cat("   João Pedro: 582416\n\n")
 
 cat("2. Parâmetros da Amostra:\n")
 cat("   Maior matrícula (M) = ", M, "\n")
@@ -45,7 +46,6 @@ primeiras_10$total_user <- primeiras_10$casual + primeiras_10$registered
 # 6. Gerar os resultados estatísticos no R para comparar com o cálculo manual
 resumo_estatistico <- summary(primeiras_10$total_user)
 print(resumo_estatistico)
-
 
 
 # ==========================================
