@@ -142,3 +142,89 @@ cat("Critério Q1:", Q1, "\n")
 cat("Número de dias com baixa utilização:", dias_baixa_utilizacao, "\n")
 cat("Proporção de dias com baixa utilização:", proporcao_baixa * 100, "%\n")
 cat("====================================================================\n")
+
+# ==========================================
+# QUESTÃO 3
+# ==========================================
+cat("\n========================= Terceira Questão =========================\n")
+ 
+# Rótulos para leitura (temp já é dado em [0,1]; season/weathersit são códigos)
+# Atenção: a ordem de season abaixo segue a convenção do dataset original
+# (1=primavera, 2=verão, 3=outono, 4=inverno). Confira essa ordem no
+# codebook oficial antes de fechar o relatório - se estiver trocada,
+# os itens 3.1 e 3.4 mudam de interpretação.
+data_group$season_label <- factor(data_group$season,
+                                   levels = 1:4,
+                                   labels = c("Primavera", "Verão", "Outono", "Inverno"))
+ 
+# Esta ordem já está dada no enunciado, não precisa conferir
+data_group$weather_label <- factor(data_group$weathersit,
+                                    levels = 1:4,
+                                    labels = c("Céu limpo", "Nublado", "Chuva fraca", "Chuva forte"))
+ 
+# ---------------------------------------------------------
+# ITEM 3.1: Utilização por Estação do Ano
+# ---------------------------------------------------------
+cat("--- Item 3.1: total_user por Estação ---\n")
+ 
+media_estacao   <- tapply(data_group$total_user, data_group$season_label, mean)
+mediana_estacao <- tapply(data_group$total_user, data_group$season_label, median)
+dp_estacao      <- tapply(data_group$total_user, data_group$season_label, sd)
+prop_low_estacao <- tapply(data_group$low_usage, data_group$season_label, mean)
+ 
+tabela_estacao <- data.frame(
+  Media = round(media_estacao, 1),
+  Mediana = mediana_estacao,
+  DesvioPadrao = round(dp_estacao, 1),
+  Prop_Low_Usage = round(prop_low_estacao * 100, 1)
+)
+print(tabela_estacao)
+ 
+boxplot(total_user ~ season_label, data = data_group,
+        main = "Total de Usuários por Estação do Ano",
+        xlab = "Estação", ylab = "Total de Usuários",
+        col = c("lightgreen", "khaki", "orange", "lightblue"))
+ 
+# ---------------------------------------------------------
+# ITEM 3.2: Utilização por Condição Meteorológica
+# ---------------------------------------------------------
+cat("\n--- Item 3.2: total_user por Condição Meteorológica ---\n")
+ 
+media_clima <- tapply(data_group$total_user, data_group$weather_label, mean)
+dp_clima    <- tapply(data_group$total_user, data_group$weather_label, sd)
+prop_low_clima <- tapply(data_group$low_usage, data_group$weather_label, mean)
+ 
+tabela_clima <- data.frame(
+  Media = round(media_clima, 1),
+  DesvioPadrao = round(dp_clima, 1),
+  Prop_Low_Usage = round(prop_low_clima * 100, 1)
+)
+print(tabela_clima)
+ 
+# Nº de observações por categoria - importante checar antes de confiar no DP
+# (categoria com poucos dias tem desvio padrão pouco confiável)
+cat("\nContagem de dias por condição meteorológica:\n")
+print(table(data_group$weather_label))
+ 
+boxplot(total_user ~ weather_label, data = data_group,
+        main = "Total de Usuários por Condição Meteorológica",
+        xlab = "Condição", ylab = "Total de Usuários",
+        col = c("lightblue", "gray80", "skyblue", "darkblue"))
+ 
+# ---------------------------------------------------------
+# ITEM 3.3: Relação entre Temperatura e total_user
+# ---------------------------------------------------------
+cat("\n--- Item 3.3: Temperatura x total_user ---\n")
+ 
+correlacao <- cor(data_group$temp, data_group$total_user, method = "pearson")
+cat("Coeficiente de correlação de Pearson:", round(correlacao, 3), "\n")
+ 
+plot(data_group$temp, data_group$total_user,
+     main = "Relação entre Temperatura e Total de Usuários",
+     xlab = "Temperatura (normalizada)", ylab = "Total de Usuários",
+     pch = 19, col = "steelblue")
+abline(lm(total_user ~ temp, data = data_group), col = "red", lwd = 2)
+ 
+cat("\n====================================================================\n")
+ 
+
