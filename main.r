@@ -227,4 +227,31 @@ abline(lm(total_user ~ temp, data = data_group), col = "red", lwd = 2)
  
 cat("\n====================================================================\n")
  
+# ==========================================
+# QUESTÃO 4
+# ==========================================
+cat("\n========================= Quarta Questão =========================\n")
+ 
+# ---------------------------------------------------------
+# ITEM 4.1: Série temporal de total_user
+# ---------------------------------------------------------
+cat("--- Item 4.1: Série Temporal de total_user ---\n")
+ 
+data_group$dteday <- as.Date(data_group$dteday)
+ 
+plot(data_group$dteday, data_group$total_user, type = "l",
+     main = "Série Temporal do Total de Usuários",
+     xlab = "Data", ylab = "Total de Usuários", col = "steelblue")
+ 
+# Marca visualmente o dia de maior e o de menor utilização
+dia_max <- data_group[which.max(data_group$total_user), ]
+dia_min <- data_group[which.min(data_group$total_user), ]
+points(dia_max$dteday, dia_max$total_user, col = "darkgreen", pch = 19)
+points(dia_min$dteday, dia_min$total_user, col = "red", pch = 19)
+ 
+cat("Dia de maior utilização:", as.character(dia_max$dteday), "-", dia_max$total_user, "usuários\n")
+cat("Dia de menor utilização:", as.character(dia_min$dteday), "-", dia_min$total_user, "usuários\n")
+ 
+
+ 
 
