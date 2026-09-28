@@ -251,7 +251,53 @@ points(dia_min$dteday, dia_min$total_user, col = "red", pch = 19)
  
 cat("Dia de maior utilização:", as.character(dia_max$dteday), "-", dia_max$total_user, "usuários\n")
 cat("Dia de menor utilização:", as.character(dia_min$dteday), "-", dia_min$total_user, "usuários\n")
+# ---------------------------------------------------------
+# ITEM 4.2: Retomando as duas características da Questão 3
+# ---------------------------------------------------------
+cat("\n--- Item 4.2: Associação de cada característica com total_user ---\n")
  
-
+# Características escolhidas no item 3.4: ESTAÇÃO e CLIMA
+# (justificativa: variação de low_usage muito mais acentuada nessas duas
+# do que a correlação moderada da temperatura - ver item 3.4 no relatório)
  
-
+cat("\n[Estação]\n")
+anova_estacao <- aov(total_user ~ season_label, data = data_group)
+print(summary(anova_estacao))
+png("graficos/4_2_A_boxplot_estacao.png", width = 800, height = 600)
+boxplot(total_user ~ season_label, data = data_group,
+        main = "Revisão: total_user por Estação",
+        xlab = "Estação", ylab = "Total de Usuários")
+dev.off()
+ 
+cat("\n[Condição Meteorológica]\n")
+anova_clima <- aov(total_user ~ weather_label, data = data_group)
+print(summary(anova_clima))
+png("graficos/4_2_B_boxplot_clima.png", width = 800, height = 600)
+boxplot(total_user ~ weather_label, data = data_group,
+        main = "Revisão: total_user por Condição Meteorológica",
+        xlab = "Condição", ylab = "Total de Usuários")
+dev.off()
+ 
+# ---------------------------------------------------------
+# ITEM 4.3: Temperatura x total_user, distinguindo low_usage
+# ---------------------------------------------------------
+cat("\n--- Item 4.3: Temperatura x total_user, por low_usage ---\n")
+ 
+cores_low_usage <- ifelse(data_group$low_usage == 1, "red", "steelblue")
+ 
+png("graficos/4_3_dispersao_temp_low_usage.png", width = 800, height = 600)
+plot(data_group$temp, data_group$total_user,
+     main = "Temperatura x Total de Usuários (por Nível de Utilização)",
+     xlab = "Temperatura (normalizada)", ylab = "Total de Usuários",
+     pch = 19, col = cores_low_usage)
+legend("topleft", legend = c("Baixa utilização", "Utilização normal"),
+       col = c("red", "steelblue"), pch = 19)
+dev.off()
+ 
+# Correlação separada para os dois grupos (ajuda a comparar no relatório)
+cor_baixa <- cor(data_group$temp[data_group$low_usage == 1],
+                  data_group$total_user[data_group$low_usage == 1])
+cor_normal <- cor(data_group$temp[data_group$low_usage == 0],
+                   data_group$total_user[data_group$low_usage == 0])
+cat("Correlação temp x total_user (dias de baixa utilização):", round(cor_baixa, 3), "\n")
+cat("Correlação temp x total_user (demais dias):", round(cor_normal, 3), "\n") 
