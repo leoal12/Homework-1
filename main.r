@@ -7,7 +7,7 @@
 dados_originais <- read.csv("HW1_bike_sharing.csv")
 
 # 2. Definir as matrículas do grupo e calcular M e r
-matriculas <- c(580988, 580201, 592280, 582416) # Leonardo, Gabriel, Noah e João Pedro
+matriculas <- c(580988, 580201, 582280, 582416) # Leonardo, Gabriel, Noah e João Pedro
 M <- max(matriculas)                    # Encontra a maior matrícula
 r <- 1 + (M %% 100)                     # Operador %% calcula o módulo
 
@@ -22,7 +22,7 @@ ultima_data <- data_group$dteday[nrow(data_group)]
 cat("1. Matrículas da Equipe:\n")
 cat("   Leonardo Alves Moreira: 580988\n")
 cat("   Gabriel Sampaio: 580201\n")
-cat("   Noah Martins: 592280\n")
+cat("   Noah Martins: 582280\n")
 cat("   João Pedro: 582416\n\n")
 
 cat("2. Parâmetros da Amostra:\n")
@@ -149,15 +149,10 @@ cat("====================================================================\n")
 cat("\n========================= Terceira Questão =========================\n")
  
 # Rótulos para leitura (temp já é dado em [0,1]; season/weathersit são códigos)
-# Atenção: a ordem de season abaixo segue a convenção do dataset original
-# (1=primavera, 2=verão, 3=outono, 4=inverno). Confira essa ordem no
-# codebook oficial antes de fechar o relatório - se estiver trocada,
-# os itens 3.1 e 3.4 mudam de interpretação.
 data_group$season_label <- factor(data_group$season,
                                    levels = 1:4,
                                    labels = c("Primavera", "Verão", "Outono", "Inverno"))
  
-# Esta ordem já está dada no enunciado, não precisa conferir
 data_group$weather_label <- factor(data_group$weathersit,
                                     levels = 1:4,
                                     labels = c("Céu limpo", "Nublado", "Chuva fraca", "Chuva forte"))
@@ -180,6 +175,9 @@ tabela_estacao <- data.frame(
 )
 print(tabela_estacao)
  
+# Restaurando o layout gráfico para 1 imagem por vez
+par(mfrow=c(1,1))
+
 boxplot(total_user ~ season_label, data = data_group,
         main = "Total de Usuários por Estação do Ano",
         xlab = "Estação", ylab = "Total de Usuários",
@@ -201,8 +199,6 @@ tabela_clima <- data.frame(
 )
 print(tabela_clima)
  
-# Nº de observações por categoria - importante checar antes de confiar no DP
-# (categoria com poucos dias tem desvio padrão pouco confiável)
 cat("\nContagem de dias por condição meteorológica:\n")
 print(table(data_group$weather_label))
  
@@ -251,14 +247,16 @@ points(dia_min$dteday, dia_min$total_user, col = "red", pch = 19)
  
 cat("Dia de maior utilização:", as.character(dia_max$dteday), "-", dia_max$total_user, "usuários\n")
 cat("Dia de menor utilização:", as.character(dia_min$dteday), "-", dia_min$total_user, "usuários\n")
+
 # ---------------------------------------------------------
 # ITEM 4.2: Retomando as duas características da Questão 3
 # ---------------------------------------------------------
 cat("\n--- Item 4.2: Associação de cada característica com total_user ---\n")
- 
-# Características escolhidas no item 3.4: ESTAÇÃO e CLIMA
-# (justificativa: variação de low_usage muito mais acentuada nessas duas
-# do que a correlação moderada da temperatura - ver item 3.4 no relatório)
+
+# Criar a pasta 'graficos' automaticamente se ela ainda não existir
+if(!dir.exists("graficos")) {
+  dir.create("graficos")
+}
  
 cat("\n[Estação]\n")
 anova_estacao <- aov(total_user ~ season_label, data = data_group)
@@ -300,4 +298,4 @@ cor_baixa <- cor(data_group$temp[data_group$low_usage == 1],
 cor_normal <- cor(data_group$temp[data_group$low_usage == 0],
                    data_group$total_user[data_group$low_usage == 0])
 cat("Correlação temp x total_user (dias de baixa utilização):", round(cor_baixa, 3), "\n")
-cat("Correlação temp x total_user (demais dias):", round(cor_normal, 3), "\n") 
+cat("Correlação temp x total_user (demais dias):", round(cor_normal, 3), "\n")
