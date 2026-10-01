@@ -1,56 +1,38 @@
-# Análise Estatística: Sistema de Compartilhamento de Bicicletas (Homework 1)
-
-**Disciplina:** Estatística para Engenharia
-**Instituição:** Universidade Federal do Ceará (UFC)
-
----
-
-##  Descrição do Projeto
-Este projeto realiza uma análise estatística descritiva completa sobre a utilização diária de um sistema de compartilhamento de bicicletas nos Estados Unidos, com base no ano de 2011. 
-
-O escopo do trabalho engloba a classificação de variáveis, o cálculo de medidas de tendência central e dispersão (médias, medianas, quartis, limites interquartis para deteção de *outliers*), além da análise de impacto de fatores climáticos e sazonais na demanda (usando variáveis como `weathersit` e `season`). A análise explora ainda a correlação linear entre a temperatura e o uso do sistema.
-
-##  Metodologia de Amostragem
-Conforme exigido pelo roteiro do projeto, não utilizamos o conjunto de dados completo. Isolamos uma amostra contínua de 300 dias baseada no maior número de matrícula do grupo ($M$).
-
-* **Matrículas da equipe:** 580988, 580201, 582280, 582416
-* **Maior matrícula ($M$):** 582416 (João Pedro)
-* **Cálculo do ponto de partida ($r$):** 
-  $r = 1 + (582416 \pmod{100}) = 17$
-* **Escopo final da amostra:** Linha 17 até a linha 316 (Período observado: 17/01/2011 a 12/11/2011).
-
-**Trecho de código utilizado para o recorte:**
-```R
-# Definição das matrículas e cálculo dos parâmetros
+Homework 1: Estatística para Engenharia (UFC)
+Análise de Dados - Sistema de Compartilhamento de Bicicletas
+Este repositório guarda o nosso primeiro trabalho prático de Estatística. A ideia aqui foi pegar os dados de aluguel de bicicletas de uma cidade dos EUA em 2011 e entender como a demanda funciona na prática. Ao longo do projeto, classificamos variáveis, calculamos as medidas de tendência central e dispersão (médias, medianas, quartis, outliers) e cruzamos tudo isso com o clima (temperatura, estação do ano, chuvas) para ver o que realmente impacta o uso do sistema.
+A Nossa Amostra
+Seguindo o roteiro da professora, não usamos as 731 linhas da base original. O nosso recorte de 300 dias foi calculado usando a matrícula mais alta do grupo (M).
+ * Nossas matrículas: 580988, 580201, 582280, 582416
+ * Maior matrícula (M): 582416 (João Pedro)
+ * Onde a amostra começa (r): 1 + (582416 \pmod{100}) = 17
+ * Nosso período: Da linha 17 até a 316 (que cobre de 17/01/2011 a 12/11/2011).
+O trecho do código que faz esse recorte é bem direto:
+# Puxando as matrículas e definindo os parâmetros da amostra
 matriculas <- c(580988, 580201, 582280, 582416)
 M <- max(matriculas)
 r <- 1 + (M %% 100)
 
-# Leitura e recorte (300 observações a partir de r)
+# Lendo o CSV original e cortando as 300 linhas exatas
 dados_originais <- read.csv("HW1_bike_sharing.csv")
 linha_final <- r + 299
 data_group <- dados_originais[r:linha_final, ]
 
- Estrutura do Repositório
-​Para garantir a reprodutibilidade e organização, os arquivos estão distribuídos da seguinte forma:
- homework-1-estatistica
- ┣  HW1_bike_sharing.csv     # Base de dados original completa (731 obs.)
- ┣  main.r                   # Script principal com todas as análises (Q1 a Q4)
- ┣  README.md                # Documentação e instruções de execução
- ┣  Relatorio_Final.pdf      # Documento consolidado com análises e interpretações
- ┗  graficos/                # Diretório autogerado com os gráficos (png) da execução
-
- Como Executar a Análise
-​O script foi desenvolvido usando as bibliotecas nativas da linguagem R, dispensando a instalação de pacotes externos pesados (como ggplot2 ou dplyr).
-
-1.Clone o repositório:
-git clone [(https://github.com/leoal12/Homework-1)]
-2.Abra o ambiente: Abra a pasta clonada no VS Code (com a extensão REditorSupport) ou no RStudio.
-3.Verifique os arquivos: Certifique-se de que o arquivo HW1_bike_sharing.csv e o script main.r estão no mesmo diretório de trabalho.
-4.Execute o código:
-​No VS Code: Abra o arquivo main.r, selecione todo o texto (Ctrl + A) e pressione Ctrl + Enter para enviar ao terminal, ou clique no botão Source no canto superior direito.
-5.Resultados: O terminal exibirá toda a parte numérica estruturada por questões. As visualizações (boxplots, histogramas e gráficos de dispersão) aparecerão na interface gráfica e serão salvas automaticamente na pasta /graficos/.
- Autores e Colaboração
-​O trabalho foi desenvolvido de forma colaborativa. As metodologias matemáticas, convenções de quartis e interpretações lógicas foram debatidas por toda a equipe para garantir a consistência entre o código e o relatório escrito. A divisão principal de tarefas operacionais ocorreu da seguinte forma:
-​Leonardo Alves Moreira & Noah Martins: Responsáveis pela formulação algorítmica, tratamento do conjunto de dados (data_group), desenvolvimento das análises em linguagem R, padronização visual das saídas de terminal e geração automatizada de gráficos.
-​Gabriel Sampaio & João Pedro: Responsáveis pela interpretação estatística dos resultados, avaliação da influência das variáveis macroclimáticas sobre a demanda (total_user), cálculo manual de validação e redação técnica do relatório final em conformidade com as normas acadêmicas.
+O que tem aqui
+Organizamos os arquivos da seguinte forma para facilitar a execução e a correção:
+ * HW1_bike_sharing.csv: A base de dados completa original.
+ * main.r: O script principal que resolve e imprime as questões de 1 a 4.
+ * README.md: Este guia que você está lendo.
+ * Relatorio_Final.pdf: O documento oficial com as análises, cálculos manuais e conclusões.
+ * graficos/: Uma pasta criada automaticamente pelo script na hora de salvar os gráficos (boxplots, histogramas e dispersão).
+Como rodar o código
+Fizemos questão de usar apenas o R base. Você não vai precisar instalar nenhum pacote extra pesado, como ggplot2 ou dplyr.
+ * Faça o clone do repositório: git clone [https://github.com/leoal12/Homework-1](https://github.com/leoal12/Homework-1)
+ * Abra a pasta do projeto no VS Code (recomendamos a extensão REditorSupport) ou no RStudio.
+ * Confira se o arquivo HW1_bike_sharing.csv e o main.r estão soltos na mesma pasta.
+ * No VS Code, abra o main.r, selecione todo o texto (Ctrl + A) e mande para o terminal (Ctrl + Enter), ou simplesmente clique no botão "Source" no canto superior direito.
+ * Pronto! O terminal vai cuspir os resultados numéricos divididos por questão. Os gráficos vão abrir na sua tela e também serão salvos sozinhos dentro da pasta /graficos/.
+Quem fez o que
+O trabalho foi feito a oito mãos. Todo mundo bateu cabeça junto para alinhar a matemática, a lógica dos quartis e as interpretações, garantindo que o código e o relatório escrito falassem a mesma língua. A divisão do trabalho pesado ficou assim:
+ * Leonardo Alves Moreira & Noah Martins: Cuidaram da programação no R. Montaram a lógica do script, trataram a amostra (data_group), organizaram os prints limpos no terminal e automatizaram a exportação das imagens.
+ * Gabriel Sampaio & João Pedro: Ficaram com a parte analítica e a redação. Fizeram os cálculos manuais de validação, analisaram como o clima e as estações afetam os aluguéis (total_user) e escreveram o relatório técnico final dentro das normas acadêmicas.
