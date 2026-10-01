@@ -1,6 +1,6 @@
 # Análise Estatística: Sistema de Compartilhamento de Bicicletas (Homework 1)
 
-**Disciplina:** Estatística para Engenheiros
+**Disciplina:** Estatística para Engenharia
 **Instituição:** Universidade Federal do Ceará (UFC)
 
 ---
