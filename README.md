@@ -1,39 +1,26 @@
-Análise Estatística: Sistema de Compartilhamento de Bicicletas (Homework 1)
-Disciplina: Estatística para Engenharia Instituição: Universidade Federal do Ceará (UFC)
+# Análise Estatística: Sistema de Compartilhamento de Bicicletas (Homework 1)
 
-Descrição do Projeto
-Este projeto realiza uma análise estatística descritiva completa sobre a utilização diária de um sistema de compartilhamento de bicicletas nos Estados Unidos, com base no ano de 2011.
+**Disciplina:** Estatística para Engenharia
+**Instituição:** Universidade Federal do Ceará (UFC)
 
-O escopo do trabalho engloba a classificação de variáveis, o cálculo de medidas de tendência central e dispersão (médias, medianas, quartis, limites interquartis para deteção de outliers), além da análise de impacto de fatores climáticos e sazonais na demanda (usando variáveis como weathersit e season). A análise explora ainda a correlação linear entre a temperatura e o uso do sistema.
+---
 
-Metodologia de Amostragem
-Conforme exigido pelo roteiro do projeto, não utilizamos o conjunto de dados completo. Isolamos uma amostra contínua de 300 dias baseada no maior número de matrícula do grupo (
-M
-).
+##  Descrição do Projeto
+Este projeto realiza uma análise estatística descritiva completa sobre a utilização diária de um sistema de compartilhamento de bicicletas nos Estados Unidos, com base no ano de 2011. 
 
-Matrículas da equipe: 580988, 580201, 582280, 582416
-Maior matrícula (
-M
-): 582416 (João Pedro)
-Cálculo do ponto de partida (
-r
-): 
-r
-=
-1
-+
-(
-582416
-(
-mod
-100
-)
-)
-=
-17
-Escopo final da amostra: Linha 17 até a linha 316 (Período observado: 17/01/2011 a 12/11/2011).
-Trecho de código utilizado para o recorte:
+O escopo do trabalho engloba a classificação de variáveis, o cálculo de medidas de tendência central e dispersão (médias, medianas, quartis, limites interquartis para deteção de *outliers*), além da análise de impacto de fatores climáticos e sazonais na demanda (usando variáveis como `weathersit` e `season`). A análise explora ainda a correlação linear entre a temperatura e o uso do sistema.
 
+##  Metodologia de Amostragem
+Conforme exigido pelo roteiro do projeto, não utilizamos o conjunto de dados completo. Isolamos uma amostra contínua de 300 dias baseada no maior número de matrícula do grupo ($M$).
+
+* **Matrículas da equipe:** 580988, 580201, 582280, 582416
+* **Maior matrícula ($M$):** 582416 (João Pedro)
+* **Cálculo do ponto de partida ($r$):** 
+  $r = 1 + (582416 \pmod{100}) = 17$
+* **Escopo final da amostra:** Linha 17 até a linha 316 (Período observado: 17/01/2011 a 12/11/2011).
+
+**Trecho de código utilizado para o recorte:**
+```R
 # Definição das matrículas e cálculo dos parâmetros
 matriculas <- c(580988, 580201, 582280, 582416)
 M <- max(matriculas)
@@ -67,4 +54,3 @@ git clone [(https://github.com/leoal12/Homework-1)]
 ​O trabalho foi desenvolvido de forma colaborativa. As metodologias matemáticas, convenções de quartis e interpretações lógicas foram debatidas por toda a equipe para garantir a consistência entre o código e o relatório escrito. A divisão principal de tarefas operacionais ocorreu da seguinte forma:
 ​Leonardo Alves Moreira & Noah Martins: Responsáveis pela formulação algorítmica, tratamento do conjunto de dados (data_group), desenvolvimento das análises em linguagem R, padronização visual das saídas de terminal e geração automatizada de gráficos.
 ​Gabriel Sampaio & João Pedro: Responsáveis pela interpretação estatística dos resultados, avaliação da influência das variáveis macroclimáticas sobre a demanda (total_user), cálculo manual de validação e redação técnica do relatório final em conformidade com as normas acadêmicas.
-Deixe menos parecido com ia
