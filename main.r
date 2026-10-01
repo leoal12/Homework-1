@@ -1,6 +1,6 @@
-# ==========================================
+
 # QUESTÃO 1
-# ==========================================
+
 
 # 1. Carregar o arquivo original
 # Certifique-se de que o arquivo .csv está na mesma pasta do script
@@ -33,9 +33,8 @@ cat("3. Período Observado:\n")
 cat("   Data inicial: ", data_group$dteday[1], "\n")
 cat("   Data final: ", data_group$dteday[nrow(data_group)], "\n")
 
-# ==========================================
 # CÁLCULOS DAS 10 PRIMEIRAS OBSERVAÇÕES
-# ==========================================
+
 
 # 5. Isolar as 10 primeiras linhas da amostra do grupo
 primeiras_10 <- data_group[1:10, ]
@@ -48,25 +47,23 @@ resumo_estatistico <- summary(primeiras_10$total_user)
 print(resumo_estatistico)
 
 
-# ==========================================
+
 # QUESTÃO 2
-# ==========================================
+
 
 # Pré-requisito: Criar a variável total_user para TODAS as 300 linhas da amostra
 data_group$total_user <- data_group$casual + data_group$registered
 
 cat("\n========================= Segunda Questão =========================\n")
-
-# ---------------------------------------------------------
 # ITEM 2.1: Valores Ausentes
 # ---------------------------------------------------------
 cat("--- Item 2.1: Valores Ausentes ---\n")
 total_na <- sum(is.na(data_group))
 cat("Total de valores ausentes (NA) no conjunto de dados:", total_na, "\n\n")
 
-# ---------------------------------------------------------
+
 # ITEM 2.2: Medidas de Tendência Central
-# ---------------------------------------------------------
+
 cat("--- Item 2.2: Tendência Central (total_user) ---\n")
 media_tu <- mean(data_group$total_user)
 mediana_tu <- median(data_group$total_user)
@@ -82,9 +79,8 @@ cat("Média:", media_tu, "\n")
 cat("Mediana:", mediana_tu, "\n")
 cat("Moda:", moda_tu, "\n\n")
 
-# ---------------------------------------------------------
 # ITEM 2.3: Quartis, Intervalo Interquartil e Valores Atípicos
-# ---------------------------------------------------------
+
 cat("--- Item 2.3: Quartis e Outliers (total_user) ---\n")
 quartis <- quantile(data_group$total_user)
 Q1 <- quartis[2]
@@ -110,9 +106,8 @@ if(nrow(outliers) > 0) {
 }
 cat("\n")
 
-# ---------------------------------------------------------
 # ITEM 2.4: Gráficos (Histograma e Boxplot)
-# ---------------------------------------------------------
+
 # O comando par(mfrow=c(1,2)) organiza a janela gráfica para mostrar os 2 gráficos lado a lado
 par(mfrow=c(1,2)) 
 
@@ -128,9 +123,9 @@ boxplot(data_group$total_user,
         ylab = "Total de Utilizadores", 
         col = "lightgreen")
 
-# ---------------------------------------------------------
+
 # ITEM 2.5: Variável Binária (low_usage)
-# ---------------------------------------------------------
+
 cat("--- Item 2.5: Dias de Baixa Utilização (low_usage) ---\n")
 # Criação da variável binária conforme a Equação 1 do enunciado
 data_group$low_usage <- ifelse(data_group$total_user < Q1, 1, 0)
@@ -143,9 +138,8 @@ cat("Número de dias com baixa utilização:", dias_baixa_utilizacao, "\n")
 cat("Proporção de dias com baixa utilização:", proporcao_baixa * 100, "%\n")
 cat("====================================================================\n")
 
-# ==========================================
 # QUESTÃO 3
-# ==========================================
+
 cat("\n========================= Terceira Questão =========================\n")
  
 # Rótulos para leitura (temp já é dado em [0,1]; season/weathersit são códigos)
@@ -157,9 +151,9 @@ data_group$weather_label <- factor(data_group$weathersit,
                                     levels = 1:4,
                                     labels = c("Céu limpo", "Nublado", "Chuva fraca", "Chuva forte"))
  
-# ---------------------------------------------------------
+
 # ITEM 3.1: Utilização por Estação do Ano
-# ---------------------------------------------------------
+
 cat("--- Item 3.1: total_user por Estação ---\n")
  
 media_estacao   <- tapply(data_group$total_user, data_group$season_label, mean)
@@ -183,9 +177,9 @@ boxplot(total_user ~ season_label, data = data_group,
         xlab = "Estação", ylab = "Total de Usuários",
         col = c("lightgreen", "khaki", "orange", "lightblue"))
  
-# ---------------------------------------------------------
+ 
 # ITEM 3.2: Utilização por Condição Meteorológica
-# ---------------------------------------------------------
+
 cat("\n--- Item 3.2: total_user por Condição Meteorológica ---\n")
  
 media_clima <- tapply(data_group$total_user, data_group$weather_label, mean)
@@ -206,10 +200,9 @@ boxplot(total_user ~ weather_label, data = data_group,
         main = "Total de Usuários por Condição Meteorológica",
         xlab = "Condição", ylab = "Total de Usuários",
         col = c("lightblue", "gray80", "skyblue", "darkblue"))
- 
-# ---------------------------------------------------------
+
 # ITEM 3.3: Relação entre Temperatura e total_user
-# ---------------------------------------------------------
+
 cat("\n--- Item 3.3: Temperatura x total_user ---\n")
  
 correlacao <- cor(data_group$temp, data_group$total_user, method = "pearson")
@@ -223,14 +216,13 @@ abline(lm(total_user ~ temp, data = data_group), col = "red", lwd = 2)
  
 cat("\n====================================================================\n")
  
-# ==========================================
+
 # QUESTÃO 4
-# ==========================================
+
 cat("\n========================= Quarta Questão =========================\n")
  
-# ---------------------------------------------------------
-# ITEM 4.1: Série temporal de total_user
-# ---------------------------------------------------------
+
+# ITEM 4.1: Série temporal de total_user 
 cat("--- Item 4.1: Série Temporal de total_user ---\n")
  
 data_group$dteday <- as.Date(data_group$dteday)
@@ -276,9 +268,9 @@ boxplot(total_user ~ weather_label, data = data_group,
         xlab = "Condição", ylab = "Total de Usuários")
 dev.off()
  
-# ---------------------------------------------------------
+
 # ITEM 4.3: Temperatura x total_user, distinguindo low_usage
-# ---------------------------------------------------------
+
 cat("\n--- Item 4.3: Temperatura x total_user, por low_usage ---\n")
  
 cores_low_usage <- ifelse(data_group$low_usage == 1, "red", "steelblue")
